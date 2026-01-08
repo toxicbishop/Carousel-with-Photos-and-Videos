@@ -2,7 +2,7 @@
 
 A lightweight, responsive media carousel built with vanilla HTML, CSS, and JS.
 
-<img src="Preview/preview.png" width="600" alt="Carousel Preview">
+<img src="Preview/preview.png" width="600" alt="Website Preview">
 <p><em>This is how it's going to look</em></p>
 
 ## ✨ Features
@@ -23,5 +23,3 @@ A lightweight, responsive media carousel built with vanilla HTML, CSS, and JS.
 - **Add Media**: Drop files in `images/` and add card divs in `index.html`:
   ```html
   <div class="Card"><img src="..." /></div>
-  ```
-- **Colors**: Edit CSS variables in `style.css` (`:root`).
