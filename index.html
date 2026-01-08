@@ -66,99 +66,99 @@
     </div>
 
     <script>
-const carousel = document.querySelector(".carousel");
-const leftBtn = document.querySelector(".left-btn");
-const rightBtn = document.querySelector(".right-btn");
-const dotsContainer = document.querySelector(".carousel-dots");
-const cards = document.querySelectorAll(".Card");
+      const carousel = document.querySelector(".carousel");
+      const leftBtn = document.querySelector(".left-btn");
+      const rightBtn = document.querySelector(".right-btn");
+      const dotsContainer = document.querySelector(".carousel-dots");
+      const cards = document.querySelectorAll(".Card");
 
-// 1. Create dots - exactly one per card
-dotsContainer.innerHTML = ''; // Clear existing to prevent duplicates
-cards.forEach((_, index) => {
-  const dot = document.createElement("span");
-  dot.classList.add("dot");
-  if (index === 0) dot.classList.add("active");
-  dot.addEventListener("click", () => {
-    cards[index].scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest"
-    });
-  });
-  dotsContainer.appendChild(dot);
-});
+      // 1. Create dots - exactly one per card
+      dotsContainer.innerHTML = ""; // Clear existing to prevent duplicates
+      cards.forEach((_, index) => {
+        const dot = document.createElement("span");
+        dot.classList.add("dot");
+        if (index === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => {
+          cards[index].scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest",
+          });
+        });
+        dotsContainer.appendChild(dot);
+      });
 
-const dots = document.querySelectorAll(".dot");
+      const dots = document.querySelectorAll(".dot");
 
-// 2. Improved Dot Update Logic
-function updateDots() {
-  const scrollLeft = carousel.scrollLeft;
-  const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-  
-  let closestIndex = 0;
+      // 2. Improved Dot Update Logic
+      function updateDots() {
+        const scrollLeft = carousel.scrollLeft;
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
 
-  // Edge case: Start of carousel -> First dot
-  if (scrollLeft <= 10) {
-    closestIndex = 0;
-  } 
-  // Edge case: End of carousel -> Last dot
-  else if (scrollLeft >= maxScroll - 10) {
-    closestIndex = cards.length - 1;
-  } 
-  // Middle: Center-based detection
-  else {
-    const carouselRect = carousel.getBoundingClientRect();
-    const carouselCenter = carouselRect.left + carouselRect.width / 2;
-    let minDistance = Infinity;
+        let closestIndex = 0;
 
-    cards.forEach((card, index) => {
-      const cardRect = card.getBoundingClientRect();
-      const cardCenter = cardRect.left + cardRect.width / 2;
-      const distance = Math.abs(carouselCenter - cardCenter);
+        // Edge case: Start of carousel -> First dot
+        if (scrollLeft <= 10) {
+          closestIndex = 0;
+        }
+        // Edge case: End of carousel -> Last dot
+        else if (scrollLeft >= maxScroll - 10) {
+          closestIndex = cards.length - 1;
+        }
+        // Middle: Center-based detection
+        else {
+          const carouselRect = carousel.getBoundingClientRect();
+          const carouselCenter = carouselRect.left + carouselRect.width / 2;
+          let minDistance = Infinity;
 
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = index;
+          cards.forEach((card, index) => {
+            const cardRect = card.getBoundingClientRect();
+            const cardCenter = cardRect.left + cardRect.width / 2;
+            const distance = Math.abs(carouselCenter - cardCenter);
+
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestIndex = index;
+            }
+          });
+        }
+
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("active", index === closestIndex);
+        });
       }
-    });
-  }
 
-  dots.forEach((dot, index) => {
-    dot.classList.toggle("active", index === closestIndex);
-  });
-}
+      carousel.addEventListener("scroll", updateDots);
 
-carousel.addEventListener("scroll", updateDots);
+      // 3. Update button states
+      function updateButtons() {
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        leftBtn.disabled = carousel.scrollLeft <= 5;
+        rightBtn.disabled = carousel.scrollLeft >= maxScroll - 5;
+      }
 
-// 3. Update button states
-function updateButtons() {
-  const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-  leftBtn.disabled = carousel.scrollLeft <= 5;
-  rightBtn.disabled = carousel.scrollLeft >= maxScroll - 5;
-}
+      carousel.addEventListener("scroll", updateButtons);
+      updateButtons();
 
-carousel.addEventListener("scroll", updateButtons);
-updateButtons();
+      // 4. Navigation Buttons
+      const scrollNext = (direction) => {
+        const cardWidth = cards[0].offsetWidth + 24; // Card + Gap
 
-// 4. Navigation Buttons
-const scrollNext = (direction) => {
-  const cardWidth = cards[0].offsetWidth + 24; // Card + Gap
-  
-  if (direction === 'right') {
-    carousel.scrollBy({ left: cardWidth, behavior: "smooth" });
-  } else {
-    carousel.scrollBy({ left: -cardWidth, behavior: "smooth" });
-  }
-};
+        if (direction === "right") {
+          carousel.scrollBy({ left: cardWidth, behavior: "smooth" });
+        } else {
+          carousel.scrollBy({ left: -cardWidth, behavior: "smooth" });
+        }
+      };
 
-rightBtn.addEventListener("click", () => scrollNext('right'));
-leftBtn.addEventListener("click", () => scrollNext('left'));
+      rightBtn.addEventListener("click", () => scrollNext("right"));
+      leftBtn.addEventListener("click", () => scrollNext("left"));
 
-// 5. Keyboard Navigation
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft') scrollNext('left');
-  if (e.key === 'ArrowRight') scrollNext('right');
-});
+      // 5. Keyboard Navigation
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") scrollNext("left");
+        if (e.key === "ArrowRight") scrollNext("right");
+      });
     </script>
   </body>
 </html>
