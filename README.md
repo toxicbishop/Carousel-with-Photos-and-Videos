@@ -25,4 +25,3 @@ A lightweight, responsive media carousel built with vanilla HTML, CSS, and JS.
   <div class="Card"><img src="..." /></div>
   ```
 - **Colors**: Edit CSS variables in `style.css` (`:root`).
-
