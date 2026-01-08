@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Styled Page</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="carousel-title">CSS & Javascript Carousel</h1>
+      <div class="carousel-wrapper">
+        <button class="carousel-btn left-btn" disabled>←</button>
+        <div class="carousel">
+          <div class="Card">
+            <img src="images/3.jpg" alt="Image 3" />
+          </div>
+          <div class="Card">
+            <video src="images/12.mp4" autoplay muted loop></video>
+          </div>
+          <div class="Card">
+            <img src="images/7.jpg" alt="Image 7" />
+          </div>
+          <div class="Card">
+            <video src="images/14.mp4" autoplay muted loop></video>
+          </div>
+          <div class="Card">
+            <img src="images/1.jpg" alt="Image 1" />
+          </div>
+          <div class="Card">
+            <img src="images/9.jpg" alt="Image 9" />
+          </div>
+          <div class="Card">
+            <video src="images/11.mp4" autoplay muted loop></video>
+          </div>
+          <div class="Card">
+            <img src="images/5.jpg" alt="Image 5" />
+          </div>
+          <div class="Card">
+            <img src="images/2.jpg" alt="Image 2" />
+          </div>
+          <div class="Card">
+            <video src="images/15.mp4" autoplay muted loop></video>
+          </div>
+          <div class="Card">
+            <img src="images/8.jpg" alt="Image 8" />
+          </div>
+          <div class="Card">
+            <img src="images/4.jpg" alt="Image 4" />
+          </div>
+          <div class="Card">
+            <video src="images/13.mp4" autoplay muted loop></video>
+          </div>
+          <div class="Card">
+            <img src="images/10.jpg" alt="Image 10" />
+          </div>
+          <div class="Card">
+            <video src="images/6.mp4" autoplay muted loop></video>
+          </div>
+        </div>
+        <button class="carousel-btn right-btn">→</button>
+      </div>
+
+      <div class="carousel-dots"></div>
+    </div>
+
+    <script>
+      const carousel = document.querySelector(".carousel");
+      const leftBtn = document.querySelector(".left-btn");
+      const rightBtn = document.querySelector(".right-btn");
+      const dotsContainer = document.querySelector(".carousel-dots");
+      const cards = document.querySelectorAll(".Card");
+
+      // Create dots
+      cards.forEach((_, index) => {
+        const dot = document.createElement("span");
+        dot.classList.add("dot");
+        if (index === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => {
+          cards[index].scrollIntoView({
+            behavior: "smooth",
+            inline: "start",
+            block: "nearest",
+          });
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      const dots = document.querySelectorAll(".dot");
+
+      function updateButtons() {
+        // Disable left button if at the start
+        leftBtn.disabled = carousel.scrollLeft <= 0;
+
+        // Disable right button if at the end
+        rightBtn.disabled =
+          carousel.scrollLeft >=
+          carousel.scrollWidth - carousel.clientWidth - 1;
+
+        // Update active dot
+        const cardWidth = cards[0].offsetWidth + 16; // card width + gap
+        const activeIndex = Math.round(carousel.scrollLeft / cardWidth);
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("active", index === activeIndex);
+        });
+      }
+
+      // Check button states on scroll
+      carousel.addEventListener("scroll", updateButtons);
+
+      // Initial check
+      updateButtons();
+
+      leftBtn.addEventListener("click", () => {
+        carousel.scrollBy({ left: -350, behavior: "smooth" });
+      });
+
+      rightBtn.addEventListener("click", () => {
+        carousel.scrollBy({ left: 350, behavior: "smooth" });
+      });
+    </script>
+  </body>
+</html>
