@@ -3,7 +3,8 @@
   --background-color: #0e0e1a;
   --button-color: #5c4cda;
   --accent-color: #7a6be6;
-  --glow-color: rgba(92, 76, 218, 0.4);
+  --glow-color: rgba(92, 76, 218, 0.5);
+  --card-shadow: rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -15,13 +16,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 2 1em;
+  padding: 0 1em;
   box-sizing: border-box;
 }
 
@@ -29,9 +31,9 @@ body {
   color: white;
   text-align: center;
   margin: 1em 0 0.5em 0;
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   background: linear-gradient(90deg, #fff, var(--accent-color), #fff);
   background-size: 200% auto;
@@ -39,6 +41,7 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shimmer 3s linear infinite;
+  text-shadow: 0 0 30px var(--glow-color);
 }
 
 @keyframes shimmer {
@@ -47,7 +50,7 @@ body {
 }
 
 .carousel-wrapper {
-  padding: 2em;
+  padding: 1em 3.5em;
   position: relative;
   display: flex;
   align-items: center;
@@ -57,22 +60,82 @@ body {
   flex: 1;
   overflow-x: auto;
   display: flex;
-  gap: 1em;
+  gap: 1.5rem; 
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  padding: 0 1.5em;
+  scrollbar-width: none;
+  padding: 2rem 0;
 }
 
 .carousel::-webkit-scrollbar {
   display: none;
 }
 
+.Card {
+  flex: 0 0 calc((100% - (1.5rem * 2)) / 3 * 1.05); 
+  height: 20rem;
+  background-color: var(--primary-color);
+  border-radius: 1.2rem;
+  overflow: hidden;
+  scroll-snap-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 10px 40px var(--card-shadow),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.Card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.Card:hover {
+  transform: translateY(-12px) scale(1.03);
+  border-color: var(--accent-color);
+  box-shadow: 
+    0 20px 60px rgba(92, 76, 218, 0.4),
+    0 0 30px rgba(92, 76, 218, 0.2),
+    0 0 0 1px var(--accent-color);
+}
+
+.Card:hover::before {
+  opacity: 1;
+}
+
+.Card img, .Card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Card:hover img,
+.Card:hover video {
+  transform: scale(1.08);
+}
+
+/* Navigation Buttons */
 .carousel-btn {
   background: linear-gradient(135deg, var(--button-color), var(--accent-color));
   border: none;
   color: white;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 900;
   height: 55px;
   width: 55px;
@@ -82,10 +145,12 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: absolute;
   z-index: 10;
-  box-shadow: 0 4px 15px var(--glow-color);
+  box-shadow: 
+    0 4px 20px var(--glow-color),
+    0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .left-btn {
@@ -97,155 +162,69 @@ body {
 }
 
 .carousel-btn:hover {
-  background: linear-gradient(135deg, var(--accent-color), var(--button-color));
-  transform: scale(1.1);
-  box-shadow: 0 6px 25px var(--glow-color);
+  background: linear-gradient(135deg, var(--accent-color), #9488f0);
+  transform: scale(1.15);
+  box-shadow: 
+    0 8px 30px var(--glow-color),
+    0 0 20px rgba(92, 76, 218, 0.5),
+    0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
-.carousel-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.carousel-btn:disabled:hover {
-  background-color: var(--button-color);
-}
-
-.Card {
-  flex: 0 0 min(26em, 80vw);
-  height: 16em;
-  background-color: var(--primary-color);
-  padding: 0;
-  border-radius: 1em;
-  overflow: hidden;
-  text-align: center;
-  color: white;
-  scroll-snap-align: start;
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.Card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 15px 40px rgba(92, 76, 218, 0.3);
-  border-color: var(--accent-color);
-}
-
-.Card img,
-.Card video {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.Card:hover img,
-.Card:hover video {
+.carousel-btn:active {
   transform: scale(1.05);
 }
 
+/* Carousel Dots */
 .carousel-dots {
   display: flex;
   justify-content: center;
-  gap: 0.6em;
-  padding: 1.5em 0;
+  gap: 0.8em;
+  padding: 1.5em 0 2em 0;
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .dot:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.4);
   transform: scale(1.2);
 }
 
 .dot.active {
   background: linear-gradient(135deg, var(--button-color), var(--accent-color));
-  box-shadow: 0 0 10px var(--glow-color);
   transform: scale(1.3);
+  box-shadow: 0 0 15px var(--glow-color);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Clock styles */
-.clock-container {
-  position: fixed;
-  top: 1em;
-  right: 3em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5em;
-  z-index: 100;
-}
-
-.clock-display {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, var(--primary-color), rgba(26, 26, 46, 0.9));
-  padding: 0.5em 1.2em;
-  border-radius: 0.5em;
-  box-shadow: 0 4px 15px var(--glow-color);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  letter-spacing: 3px;
-}
-
-.timezone-select {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  font-size: 1rem;
-  color: white;
-  background: linear-gradient(135deg, var(--button-color), var(--accent-color));
-  padding: 0.4em 0.8em;
-  border-radius: 0.4em;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 15px var(--glow-color);
-  transition: all 0.3s ease;
-}
-
-.timezone-select:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px var(--glow-color);
-}
-
-.timezone-select:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--accent-color);
-}
-
-.timezone-select option {
-  background-color: var(--primary-color);
-  color: white;
+/* Responsive */
+@media (max-width: 900px) {
+  .Card {
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+    height: 16rem;
+  }
 }
 
 @media (max-width: 600px) {
   .Card {
-    flex: 0 0 85vw;
+    flex: 0 0 85%;
+    height: 14rem;
   }
-
-  .carousel-wrapper {
-    padding: 1em;
+  
+  .carousel-title {
+    font-size: 1.8rem;
   }
-
-  .clock-container {
-    top: 0.5em;
-    right: 0.5em;
-  }
-
-  .clock-display {
+  
+  .carousel-btn {
+    height: 45px;
+    width: 45px;
     font-size: 1.2rem;
-    padding: 0.4em 0.8em;
-  }
-
-  .timezone-select {
-    font-size: 0.75rem;
   }
 }
