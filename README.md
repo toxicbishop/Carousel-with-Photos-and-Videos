@@ -2,7 +2,7 @@
 
 A lightweight, responsive media carousel built with vanilla HTML, CSS, and JS.
 
-<img src="Title/Carousel.png" width="600" alt="Carousel Preview">
+<img src="Preview/preview.png" width="600" alt="Carousel Preview">
 <p><em>This is how it's going to look</em></p>
 
 ## ✨ Features
