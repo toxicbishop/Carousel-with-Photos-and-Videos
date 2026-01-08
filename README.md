@@ -23,3 +23,5 @@ A lightweight, responsive media carousel built with vanilla HTML, CSS, and JS.
 - **Add Media**: Drop files in `images/` and add card divs in `index.html`:
   ```html
   <div class="Card"><img src="..." /></div>
+## 🔮 Future Development
+* I will deploy it.
