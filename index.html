@@ -8,6 +8,23 @@
     <title>CSS & Javascript Carousel</title>
   </head>
   <body>
+    <div class="clock-container">
+      <div class="clock-display" id="clock">00:00:00</div>
+      <select class="timezone-select" id="timezone-select">
+        <option value="Asia/Kolkata">India (IST)</option>
+        <option value="America/New_York">New York (EST)</option>
+        <option value="America/Los_Angeles">Los Angeles (PST)</option>
+        <option value="America/Chicago">Chicago (CST)</option>
+        <option value="Europe/London">London (GMT)</option>
+        <option value="Europe/Paris">Paris (CET)</option>
+        <option value="Europe/Berlin">Berlin (CET)</option>
+        <option value="Asia/Tokyo">Tokyo (JST)</option>
+        <option value="Asia/Shanghai">Shanghai (CST)</option>
+        <option value="Asia/Dubai">Dubai (GST)</option>
+        <option value="Australia/Sydney">Sydney (AEST)</option>
+        <option value="Pacific/Auckland">Auckland (NZST)</option>
+      </select>
+    </div>
     <div class="container">
       <h1 class="carousel-title">CSS & Javascript Carousel</h1>
       <div class="carousel-wrapper">
@@ -119,6 +136,36 @@
       rightBtn.addEventListener("click", () => {
         carousel.scrollBy({ left: 350, behavior: "smooth" });
       });
+
+      // Clock functionality
+      const clockElement = document.getElementById('clock');
+      const timezoneSelect = document.getElementById('timezone-select');
+
+      function updateClock() {
+        const now = new Date();
+        const selectedTimezone = timezoneSelect.value;
+        
+        let options = {
+          hour12: true,
+          hour: 'numeric',
+          minute: '2-digit',
+          second: '2-digit'
+        };
+        
+        if (selectedTimezone !== 'local') {
+          options.timeZone = selectedTimezone;
+        }
+        
+        const timeString = now.toLocaleTimeString('en-US', options);
+        clockElement.textContent = timeString;
+      }
+
+      // Update clock every second
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // Update immediately when timezone changes
+      timezoneSelect.addEventListener('change', updateClock);
     </script>
   </body>
 </html>
